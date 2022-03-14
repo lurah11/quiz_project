@@ -1,4 +1,3 @@
-from turtle import right
 from django.shortcuts import render,redirect
 from .models import *
 from django.http import HttpResponse,JsonResponse
