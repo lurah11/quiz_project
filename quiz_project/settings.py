@@ -24,7 +24,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-uk7pbuw=sl@jd#s36mz)=2j@u$aos*^kf2a0*ov2jx(hml!p!2'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
 ALLOWED_HOSTS = ['hsi-lurah11.herokuapp.com']
 
@@ -129,9 +129,9 @@ STATICFILES_DIRS = [
     os.path.join(BASE_DIR,'static_project')
 ]
 
-# STATIC_ROOT = os.path.join(os.path.dirname(BASE_DIR),'static_cdn','static_root')
-# MEDIA_URL = '/media/'
-# MEDIA_ROOT = os.path.join(os.path.dirname(BASE_DIR),'static_cdn','media_root')
+STATIC_ROOT = os.path.join(os.path.dirname(BASE_DIR),'static_cdn','static_root')
+MEDIA_URL = '/media/'
+MEDIA_ROOT = os.path.join(os.path.dirname(BASE_DIR),'static_cdn','media_root')
 
 STATICFILES_STORAGE = 'whitenoise.django.GzipManifestStaticFilesStorage'
 
