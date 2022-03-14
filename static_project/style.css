@@ -1,0 +1,17 @@
+.form-input {
+    width: min-content;
+}
+.table-header-data{
+    font-weight: bolder;
+    font-family: Cambria;
+}
+.a-like-box-edit{
+    border-style: solid;
+    background-color: aquamarine;
+    font-weight: bolder;
+}
+.a-like-box-delete{
+    border-style: solid;
+    background-color: pink;
+    font-weight: bolder;
+}

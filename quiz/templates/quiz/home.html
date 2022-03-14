@@ -1,0 +1,10 @@
+{% extends 'quiz/base.html' %}
+
+{% block content %}
+    <div>
+        <h2>Apakah yang ingin anda lakukan?</h2>
+        <a class="a-like-box-edit" href="{% url 'quiz:do-quiz-view' %}">Mengerjakan Soal</a> <br> <br>
+        <a class ="a-like-box-edit" href="{% url 'quiz:question-list-view' %}">Halaman Admin</a> <br> <br>
+        <a class ="a-like-box-edit" href="{% url 'quiz:result-list-view' %}">Daftar Nilai </a> <br>
+    </div>
+{% endblock content %}

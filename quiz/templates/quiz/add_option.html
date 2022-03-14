@@ -1,0 +1,10 @@
+{% extends 'quiz/base.html' %}
+
+{% block content %}
+<label  style="color: blue;" for="option_{{q.id}}">Pilihan baru</label>
+<div>
+    <input name="option-input-{{q.id}}" style="display:inline" class="form-input" id = "option_{{q.id}}" type="text" value="{{q.text}}">
+    <input name="radio-option-input" id="radio_option_{{q.id}}" type="radio" value="{{q.id}}" {% if q.is_true %}checked{% endif %} >
+    <a style="margin-left: 50px;" class="a-like-box-delete" href="">hapus pilihan</a>
+</div>
+{% endblock content %}

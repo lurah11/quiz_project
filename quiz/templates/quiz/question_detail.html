@@ -1,0 +1,29 @@
+{% extends 'quiz/base.html' %}
+
+{% block content %}
+<h3>SELAMAT DATANG DI HALAMAN UNTUK EDIT SOAL</h3>
+    <div class="form-group">
+        <form  action="{% url 'quiz:question-detail-view' question.id %}" method="post">
+            {% csrf_token %}
+            <div>
+            <label class="form-label" for="text_area_question">Pertanyaan</label>
+            <Textarea id = "text_area_question" name ="text-area-question" cols="100" rows="3">{{question.text}}</Textarea>
+            <a href="{% url 'quiz:add-option-view' question.id %}" class="a-like-box-edit">Tambah Pilihan Jawaban</a>
+            </div>
+            
+            {% for q in question.option_set.all %}
+                <label  style="color: blue;" for="option_{{q.id}}">Pilihan_{{forloop.counter}}</label>
+                <div>
+                    <input name="option-input-{{q.id}}" style="display:inline" class="form-input" id = "option_{{q.id}}" type="text" value="{{q.text}}">
+                    <input name="radio-option-input" id="radio_option_{{q.id}}" type="radio" value="{{q.id}}" {% if q.is_true %}checked{% endif %} >
+                    <a style="margin-left: 50px;" class="a-like-box-delete" href="{% url 'quiz:delete-option-view' q.id question.id %}">hapus pilihan</a>
+                </div>
+            {% endfor %}
+            <input type="submit" value ="POST SOAL">
+        </form>
+        <p style="color: red;">Note1 : Centang jawaban yang benar</p>
+        <p style="color: red;">Note2 : link tambah pilihan jawaban akan merefresh page, pertanyaan yang belum di post tidak akan berubah</p>
+        <a class="a-like-box-delete" href="{% url 'quiz:question-list-view' %}">Kembali ke list pertanyaan</a>
+    </div>
+    
+{% endblock %}

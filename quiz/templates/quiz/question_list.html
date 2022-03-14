@@ -1,0 +1,45 @@
+{% extends 'quiz/base.html' %}
+
+{% block content %}
+    <H2>SELAMAT DATANG DI HALAMAN ADMIN</H2>
+    <div class = "admin_header">
+        <h3 style="display: inline;">LIST SOAL YANG TERSEDIA</h3>
+        <a class="a-like-box-edit" style ="display: inline; margin-left: 500px;" href="{% url 'quiz:add-question-view' %}">Tambah Soal</a>
+
+        <div>
+            <table class="table table-scroll table-striped table-hover">
+                <thead>
+                    <tr>
+                        <td class="table-header-data">No</td>
+                        <td class="table-header-data">Pertanyaan</td>
+                        <td class="table-header-data">Pilihan</td>
+                        <td class="table-header-data">Action</td>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for question in questions %}
+                    <tr>
+                        <td>
+                            {{forloop.counter}}
+                        </td>
+                        <td>
+                            {{question.text}}
+                        </td>
+                        <td>
+                            {% for option in question.option_set.all %}
+                                <p>{{option.text}} ({% if option.is_true %}Benar{% else %}Salah{% endif %})</p>
+                            {% endfor %}
+                        </td>
+                        <td> 
+                            <div>
+                                <a class="a-like-box-edit" href="{% url 'quiz:question-detail-view' question.id%}">Edit</a>
+                                <a class ="a-like-box-delete" href="{% url 'quiz:question-delete-view' question.id %}">Delete</a>
+                            </div>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+{% endblock content %}

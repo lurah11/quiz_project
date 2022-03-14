@@ -1,0 +1,87 @@
+{% extends 'quiz/base.html' %}
+
+{% block content %}
+    <script>
+        let q_count = {{questions.count}}
+        let question_list = []
+        {% for question in questions %}
+            question_list.push({{question.id}})
+        {% endfor %}
+       $(document).ready(function(){
+        $('#submit_answer_form').on("submit",function(event){
+            event.preventDefault()
+            let user_input = document.getElementById('input_username')
+            if (user_input.value == "") {
+                alert("Harap isi nama mu")
+            }
+            else {
+                let data = $(this).serializeArray()
+            data.push({'name':'question','value':question_list})
+           console.log(data)
+            $.ajax({
+                type:"POST",
+                url : "{% url 'quiz:do-quiz-view' %}",
+                data : data,
+                success : function(res){
+                    console.log(res)
+                    let right_answer = res['list_right_option']
+                    let answered = res['list_option_id']
+                    for (let i = 0 ;i < answered.length;i++) {
+                        let radio_answer = $(`#radio-option-${answered[i]}`)
+                        let radio_answer_label = $(`#label-radio-option-${answered[i]}`)
+                        let radio_right = $(`#radio-option-${right_answer[i]}`)
+                        let radio_right_label = $(`#label-radio-option-${right_answer[i]}`)
+                        console.log(radio_right_label)
+                        if (radio_answer == radio_right){
+                            radio_answer_label.css('color','blue')
+                            radio_answer_label.css('font-weight','bold')
+                        }
+                        else if (radio_answer != radio_right) {
+                            radio_answer_label.css('color','red')
+                            radio_answer_label.css('font-weight','bold')
+                            radio_right_label.css('font-weight','bold')
+                            radio_right_label.css('color','blue')
+                        }
+                    }
+                    let mark = res['mark']
+                    console.log(mark)
+                    $('#mark').html(`Nilai Anda adalah ${mark}`)
+                }
+            })
+
+            }
+            
+       })
+       })     
+    </script>
+    <div>
+        <h3 style="display: inline; margin-bottom: 100px;">SILAHKAN PILIH JAWABAN YANG BENAR :</h3>
+        <form id = "submit_answer_form" action="{% url 'quiz:do-quiz-view' %}" method="post">
+            {% csrf_token %}
+        <p class="text-error">Note : Bila pernah mengerjakan, maka nilai akan terupdate otomatis ( tidak duplikasi )</p>
+        <label for="input_username">Masukkan Namamu</label>
+        <input type="text" id = "input_username" name="input-username" value="">
+        {% for question in questions %}
+        {% with q_count=forloop.counter %}
+            <p style="margin-top: 20px; font-weight: bold;">{{q_count}}.{{question.text}}</p>
+            {% for option in question.option_set.all %}
+            <input name="radio_option_{{q_count}}" id = "radio-option-{{option.id}}" type="radio" value="{{option.id}}">
+            <label id ="label-radio-option-{{option.id}}" for="radio-option-{{option.id}}">{{option.text}}</label>
+            <br>
+            {% endfor %}
+        {% endwith %}
+        {% endfor %}
+        
+        <br>
+        <input type="hidden" name="hidden_count" value ="{{questions.count}}">
+        <input class="bg-success" type="submit" value="Kirim Jawaban">
+        </form>
+        <br>
+        <a class = "a-like-box-edit" href="{% url 'quiz:do-quiz-view' %}">Lagi</a> 
+        <br>
+        <a href="{% url 'quiz:home-view' %}">Home</a>
+        <br>
+        <h4 id = "mark"></h4>
+
+    </div>
+{% endblock %}

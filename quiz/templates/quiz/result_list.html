@@ -1,0 +1,36 @@
+{% extends 'quiz/base.html' %}
+
+{% block content %}
+    <h3>DAFTAR NILAI PESERTA QUIZ : </h3>
+    <table class="table table-scroll table-hover">
+        <thead>
+            <tr>
+                <td class="table-header-data">No</td>
+                <td class="table-header-data">Nama</td>
+                <td class="table-header-data">Jawaban</td>
+                <td class="table-header-data">Nilai</td>
+                <td class="table-header-data">Mengulang?</td>
+            </tr>
+        </thead>
+        <tbody>
+            {% for user in users %}
+            <tr>
+                <td>{{forloop.counter}}</td>
+                <td>{{user.username}}</td>
+                <td>
+                    {% for answer in user.answer_set.all %}
+                        pertanyaan : {{answer.option.question.text}} <br>
+                        jawaban : {{answer.option.text}}({% if answer.option.is_true %}Benar{% else %}Salah{% endif %}) <br>
+                    {% endfor %}
+                </td>
+                <td>
+                    {{user.result.result}}
+                </td>
+                <td>
+                    {% if user.result.is_repeat %}Ya{% else %}Tidak{% endif %}
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}
