@@ -80,19 +80,27 @@ def do_quiz_view(request):
             user = User(username=username.lower())
             user.save()
         try : 
-            answer_object_list = Answer.objects.filter(user=user).delete()
+            answer_object_list = Answer.objects.filter(user=user)
+            answer_object_list.delete()
+            print("Delete success")
         except:
             print("lalalalal")
         for q in range(1,q_count+1) :
             try:
+                print(f"right answer{right_answer}")
                 option_id = int(request.POST.get(f"radio_option_{q}"))
+                print(f"option id : {option_id}")
                 option = Option.objects.get(id=option_id)
                 list_option_id.append(option_id)
                 answer = Answer(user=user,option=option)
+                print(answer)
                 answer.save()
-                if option.is_true : 
+                if option.is_true == True : 
                     right_answer += 1
-            except:
+                    print(f"right answer{right_answer}")
+            except Exception as e:
+                print("masuk exception 1")
+                print(e)
                 right_answer = right_answer
 
         mark = (right_answer/q_count)*100

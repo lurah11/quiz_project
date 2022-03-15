@@ -26,7 +26,7 @@ class Option(models.Model):
 
 class Answer(models.Model):
     user = models.ForeignKey(User,on_delete=models.CASCADE)
-    option = models.OneToOneField(Option,on_delete=models.CASCADE)
+    option = models.ForeignKey(Option,on_delete=models.CASCADE)
     update = models.DateTimeField(auto_now=True)
 
     def __str__(self):
